@@ -32,6 +32,26 @@ $api->version('v1', function ($api) {
     /**
      * Users routes
      */
+
+
+    $api->post('/register', 'App\Http\Controllers\UserController@register');
+    $api->post('/login', 'UserController@login');
+    $api->group(['middleware' => 'jwt.auth'], function ($api) {
+
+        $api->get('/courses', 'CourseController@index');
+        $api->get('/courses/list', 'CourseController@ShowCourses');
+        $api->get('/courses/{id}', 'CourseController@CourseItem');
+
+    });
+//    $api->middleware('jwt.auth')->get('users', function(Request $request) {
+//        return auth()->user();
+//    });
+//    $api->middleware('auth:api')->get('/user', function (Request $request) {
+//        return $request->user();
+//    });
+
+
+
     $api->get('users', 'App\Http\Controllers\Api\UsersController@index');
     $api->get('users/{id}', 'App\Http\Controllers\Api\UsersController@show');
     $api->post('users/create', 'App\Http\Controllers\Api\UsersController@store');
